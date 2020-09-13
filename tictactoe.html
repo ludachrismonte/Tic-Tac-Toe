@@ -1,0 +1,178 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Tic-Tac-Toe</title>
+	<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+
+</head>
+
+
+<style type="text/css">
+
+	html {
+		font-family: 'Luckiest Guy', cursive;
+	}
+
+	#header {
+		margin-top: 150px;
+	}
+
+	body {
+		background-color: #5A82EA;
+	}
+
+	table, td {
+		border: 5px solid #2158DC;
+	}
+
+
+
+	table {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	td {
+		height: 100px;
+		width: 100px;
+		font-size: 70px;
+		text-align: center;
+		cursor: pointer;
+	}
+	td:hover {
+		border: 5px solid #4169E3;
+	}
+
+	#reset {
+		margin-top: 25px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		width: 310px;
+		text-align: center;
+		cursor: pointer;
+		border: 5px solid #FABA35;
+		border-radius: 10px;
+		background-color: #FDDB5B;
+	}
+
+	#turn {
+		font-size: 50px;
+		text-align: center;
+	}
+
+
+</style>
+
+
+<body>
+
+	<div id="header"></div>
+
+	<p id="turn"></p>
+
+	<table>
+		<tr>
+			<td id="cell-0" onclick="hit(0)"></td>
+			<td id="cell-1" onclick="hit(1)"></td>
+			<td id="cell-2" onclick="hit(2)"></td>
+		</tr>
+		<tr>
+			<td id="cell-3" onclick="hit(3)"></td>
+			<td id="cell-4" onclick="hit(4)"></td>
+			<td id="cell-5" onclick="hit(5)"></td>
+		</tr>
+		<tr>
+			<td id="cell-6" onclick="hit(6)"></td>
+			<td id="cell-7" onclick="hit(7)"></td>
+			<td id="cell-8" onclick="hit(8)"></td>
+		</tr>
+	</table>
+
+	<div id="reset" onclick="reset()">RESET</div>
+
+	<script>
+		
+		var playing;
+		var turn;
+		var data;
+		reset();
+
+		function reset() {
+			playing = true;
+			turn = "X"
+			data = [ "", "", "",
+					 "", "", "",
+					 "", "", "" ];
+			//updateUIMessy();
+			updateUIClean();
+		}
+
+		function hit(cell) {
+			if (playing && data[cell] === "") {
+				data[cell] = turn;
+				turn = (turn === "X") ? "O" : "X";
+				//updateUIMessy();
+				updateUIClean();
+				checkRows();
+				checkCols();
+				checkCross();
+			}
+		}
+
+		function updateUIMessy() {
+			if (data.includes("")) {
+				document.getElementById("turn").innerHTML = turn + "'s turn";
+			}
+			else {
+				document.getElementById("turn").innerHTML = "Game Over!";
+			}
+			document.getElementById("cell-0").innerHTML = data[0];
+			document.getElementById("cell-1").innerHTML = data[1];
+			document.getElementById("cell-2").innerHTML = data[2];
+			document.getElementById("cell-3").innerHTML = data[3];
+			document.getElementById("cell-4").innerHTML = data[4];
+			document.getElementById("cell-5").innerHTML = data[5];
+			document.getElementById("cell-6").innerHTML = data[6];
+			document.getElementById("cell-7").innerHTML = data[7];
+			document.getElementById("cell-8").innerHTML = data[8];
+		}
+
+		function updateUIClean() {
+			document.getElementById("turn").innerHTML = (data.includes("")) ? turn + "'s turn" : "Game Over!";
+			for (var i = 0; i <= 8; i++) {
+				document.getElementById("cell-" + i).innerHTML = data[i];
+			}
+		}
+
+		function win(who) {
+			playing = false;
+			document.getElementById("turn").innerHTML = who + " Won!";
+		}
+
+		function checkRows() {
+			if (data[0] !== "" && data[0] === data[1] && data[1] === data[2]) { win(data[0]); }
+			if (data[3] !== "" && data[3] === data[4] && data[4] === data[5]) { win(data[3]); }
+			if (data[6] !== "" && data[6] === data[7] && data[7] === data[8]) { win(data[6]); }
+		}
+
+		function checkCols() {
+			if (data[0] !== "" && data[0] === data[3] && data[3] === data[6]) { win(data[0]); }
+			if (data[1] !== "" && data[1] === data[4] && data[4] === data[7]) { win(data[1]); }
+			if (data[2] !== "" && data[2] === data[5] && data[5] === data[8]) { win(data[2]); }
+		}
+
+		function checkCross() {
+			if (data[0] !== "" && data[0] === data[4] && data[4] === data[8]) { win(data[0]); }
+			if (data[2] !== "" && data[2] === data[4] && data[4] === data[6]) { win(data[2]); }
+		}
+
+	</script>
+</body>
+
+</html>
